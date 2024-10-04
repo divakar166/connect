@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Developer {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String      @unique
+  emailVerified   DateTime?   @map("email_verified")
+  mobile          String?
+  image           String?
+  password        String?
+  createdAt       DateTime    @default(now()) @map(name:"created_at")
+  updatedAt       DateTime    @updatedAt      @map(name:"updated_at")
+  @@map("developers")
+}
+
+model Recruiter {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String      @unique
+  emailVerified   DateTime?   @map("email_verified")
+  mobile          String?
+  image           String?
+  password        String?
+  jobListings     JobListing[]
+  createdAt       DateTime    @default(now()) @map(name:"created_at")
+  updatedAt       DateTime    @updatedAt      @map(name:"updated_at")
+
+  @@map("recruiters")
+}
+
+model JobListing {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  title        String     @map(name: "job_title")
+  jobType      String     @map(name: "job_type")   // Full time, part time, internship
+  jobLocation  String     @map(name: "job_location")  // Onsite, remote, hybrid
+  companyName  String     @map(name: "company_name")
+  location     String     // Company location (e.g., city)
+  experience   String     // Experience level (e.g., Fresher)
+  skills       String     // Skills required (comma-separated)
+  salary       String     // Salary (e.g., "6 LPA")
+  startDate    DateTime?  @map(name: "start_date")  // Optional start date
+  applyBy      DateTime?  @map(name: "apply_by")    // Optional application deadline
+  openings     Int        @map(name: "openings")    // Number of open positions
+  description  String     @map(name: "about")       // Job description
+  
+  recruiterId  String     @db.ObjectId
+  recruiter    Recruiter  @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime   @default(now()) @map(name: "created_at")
+  updatedAt    DateTime   @updatedAt      @map(name: "updated_at")
+
+  @@map("job_listings")
+}
+
+
+model VerificationToken {
+  id    String    @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+  token String
+  expires DateTime
+
+  @@unique([email,token])
+}
