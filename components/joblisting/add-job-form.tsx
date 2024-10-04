@@ -28,7 +28,7 @@ import { useSession } from "next-auth/react";
 import { addJob } from "@/actions/addJob";
 import { toast } from "sonner"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { format, formatDistanceToNow, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
@@ -73,6 +73,7 @@ const AddJobForm = () => {
           }
         })
         .catch((err) => {
+          console.log(err)
           toast.error("An unexpected error occurred!");
         });
     })

@@ -2,14 +2,12 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Logo from "../homepage/logo"
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import UserNav from "../homepage/user-nav";
-import { Button } from "../ui/button";
 
 export function RecruiterNavbar() {
   const pathname = usePathname();
-  const router = useRouter();
   const linkClass = (href:string) =>
     pathname === href ? "text-primary" : "text-md font-medium text-muted-foreground transition-colors hover:text-primary";
   const { data: session, status } = useSession();
