@@ -7,7 +7,7 @@ export const sendVerificationEmail = async (
   token: string,
   type: string
 ) => {
-  const confirmLink = `${process.env.DOMAIN_URL}/auth/new-verification?token=${token}&type=${type}`;
+  const confirmLink = `https://nextjobportal.vercel.app/auth/new-verification?token=${token}&type=${type}`;
   await resend.emails.send({
     from:"info@divakarsingh.online",
     to:email,
