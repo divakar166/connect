@@ -2,16 +2,29 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Logo from "../homepage/logo"
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { getSession, useSession } from "next-auth/react";
 import UserNav from "../homepage/user-nav";
+import { useEffect, useState } from "react";
 
 export function DeveloperNavbar() {
   const pathname = usePathname();
   const linkClass = (href:string) =>
     pathname === href ? "text-primary" : "text-md font-medium text-muted-foreground transition-colors hover:text-primary";
   const { data: session, status } = useSession();
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      if (!session && status === "unauthenticated") {
+        router.push("/login");
+      }
+      setSessionLoaded(true);
+    };
 
+    checkSession();
+  }, [status, router]);
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
