@@ -61,7 +61,7 @@ export function DeveloperNavbar() {
           </Link>
         </nav>
         <div className="ml-auto flex items-center space-x-4">
-          {status === "loading" ? (
+          {!sessionLoaded ? (
             <div className="flex justify-center items-center">
               <div className="w-32 h-10 bg-gray-400 rounded animate-pulse"></div>
             </div>
