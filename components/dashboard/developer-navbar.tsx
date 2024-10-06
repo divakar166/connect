@@ -2,8 +2,8 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Logo from "../homepage/logo"
-import { usePathname, useRouter } from "next/navigation";
-import { getSession, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import UserNav from "../homepage/user-nav";
 import { useEffect, useState } from "react";
 
@@ -12,19 +12,12 @@ export function DeveloperNavbar() {
   const linkClass = (href:string) =>
     pathname === href ? "text-primary" : "text-md font-medium text-muted-foreground transition-colors hover:text-primary";
   const { data: session, status } = useSession();
-  const [sessionLoaded, setSessionLoaded] = useState(false);
-  const router = useRouter();
+  const [authLoaded, setAuthLoaded] = useState(false)
   useEffect(() => {
-    const checkSession = async () => {
-      const session = await getSession();
-      if (!session && status === "unauthenticated") {
-        router.push("/login");
-      }
-      setSessionLoaded(true);
-    };
-
-    checkSession();
-  }, [status, router]);
+    if (status !== 'loading') {
+      setAuthLoaded(true)
+    }
+  }, [status])
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
@@ -61,9 +54,9 @@ export function DeveloperNavbar() {
           </Link>
         </nav>
         <div className="ml-auto flex items-center space-x-4">
-          {!sessionLoaded ? (
+          {!authLoaded ? (
             <div className="flex justify-center items-center">
-              <div className="w-32 h-10 bg-gray-400 rounded animate-pulse"></div>
+              <div className="w-10 h-10 bg-gray-400 rounded animate-pulse"></div>
             </div>
           ) : status === "authenticated" && session?.user ? (
             <UserNav data={session.user} />

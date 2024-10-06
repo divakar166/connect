@@ -5,12 +5,19 @@ import Logo from "../homepage/logo"
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import UserNav from "../homepage/user-nav";
+import { useEffect, useState } from "react";
 
 export function RecruiterNavbar() {
   const pathname = usePathname();
   const linkClass = (href:string) =>
     pathname === href ? "text-primary" : "text-md font-medium text-muted-foreground transition-colors hover:text-primary";
   const { data: session, status } = useSession();
+  const [authLoaded, setAuthLoaded] = useState(false)
+  useEffect(() => {
+    if (status !== 'loading') {
+      setAuthLoaded(true)
+    }
+  }, [status])
 
   return (
     <div className="border-b">
@@ -54,12 +61,11 @@ export function RecruiterNavbar() {
           </Link>
         </nav>
         <div className="ml-auto flex items-center space-x-4">
-          {status === "loading" ? (
+          {!authLoaded ? (
             <div className="flex justify-center items-center">
-              <div className="w-32 h-10 bg-gray-400 rounded animate-pulse"></div>
+              <div className="w-10 h-10 bg-gray-400 rounded animate-pulse"></div>
             </div>
           ) : status === "authenticated" && session?.user ? (
-            
             <UserNav data={session.user} />
           ) : null}
         </div>
