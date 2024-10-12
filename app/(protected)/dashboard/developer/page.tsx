@@ -83,7 +83,10 @@ const devJobs = [
 },
 ]
 const DeveloperDashboard = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
   return (
     <section>
       <div className="dark:text-white text-center pt-5">

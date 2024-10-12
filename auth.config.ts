@@ -41,7 +41,6 @@ export default {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (passwordMatch) {
-          console.log({...user,userType})
           return {...user,userType:userType};
         }
 
