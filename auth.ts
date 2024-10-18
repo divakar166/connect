@@ -26,6 +26,7 @@ export const {
   },
   adapter: PrismaAdapter(prisma),
   session:{strategy:"jwt"},
+  trustHost: true,
   ...authConfig
 })
 

@@ -2,6 +2,7 @@
 import { JobCardWrapper } from "@/components/joblisting/job-card-wrapper";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 const devJobs = [
   {
     id: "1",
@@ -84,13 +85,16 @@ const devJobs = [
 ]
 const DeveloperDashboard = () => {
   const { data: session, status } = useSession();
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
+  const [authLoaded, setAuthLoaded] = useState(false);
+  useEffect(()=>{
+    if(status==='authenticated'){
+      setAuthLoaded(true)
+    }
+  }, [status])
   return (
     <section>
       <div className="dark:text-white text-center pt-5">
-        <div className="text-3xl font-bold">Hi, {session?.user.name.split(' ')[0]}!</div>
+        <div className="text-3xl font-bold">Hi, {authLoaded ? session?.user.name.split(' ')[0] : "Developer"}!</div>
         <p className="dark:text-slate-400">Your next big opportunity is just a search away.</p>
       </div>
       <div className="flex flex-col justify-center items-center mt-5">

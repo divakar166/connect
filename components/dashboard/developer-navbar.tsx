@@ -13,8 +13,10 @@ export function DeveloperNavbar() {
     pathname === href ? "text-primary" : "text-md font-medium text-muted-foreground transition-colors hover:text-primary";
   const { data: session, status } = useSession();
   const [authLoaded, setAuthLoaded] = useState(false)
+  console.log(status)
   useEffect(() => {
-    if (status !== 'loading') {
+    console.log(status)
+    if (status === 'authenticated') {
       setAuthLoaded(true)
     }
   }, [status])

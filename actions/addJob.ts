@@ -9,7 +9,7 @@ export const addJob = async (values: z.infer<typeof AddJobSchema>, recruiterId: 
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
-
+  console.log(recruiterId)
   const { 
     job_title, 
     job_type, 

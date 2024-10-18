@@ -65,6 +65,7 @@ const AddJobForm = () => {
               description:response.success,
               className:"bg-gray-950 text-white"
             });
+            form.reset();
           }
           if (response?.error) {
             toast("Error", {
