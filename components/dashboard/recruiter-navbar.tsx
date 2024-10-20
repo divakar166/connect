@@ -30,7 +30,7 @@ export function RecruiterNavbar() {
               <div className="w-8 h-8 flex items-center justify-center" >
                 <Logo />
               </div>
-              <span className="font-bold text-lg ml-2 text-black dark:text-white">
+              <span className="font-bold text-lg ml-2 text-gray-950 dark:text-slate-300">
                 Connect
               </span>
             </Link>

@@ -266,7 +266,7 @@ const AddJobForm = () => {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-full pl-3 text-left font-normal",
+                            "w-full pl-3 text-left font-normal border-slate-400 dark:border-input",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -307,7 +307,7 @@ const AddJobForm = () => {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-full pl-3 text-left font-normal",
+                            "w-full pl-3 text-left font-normal border-slate-400 dark:border-input",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -378,7 +378,7 @@ const AddJobForm = () => {
             disabled={isPending}
             type="submit"
             className="w-full"
-          >{isPending ? <BeatLoader /> : "Login"}</Button>
+          >{isPending ? <BeatLoader /> : "Add Job"}</Button>
         </form>
       </Form>
     </div>

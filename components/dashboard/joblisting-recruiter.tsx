@@ -93,6 +93,19 @@ export const columns: ColumnDef<JobListing>[] = [
     cell: ({ row }) => <div>{row.getValue("location")}</div>,
   },
   {
+    accessorKey: "applyBy",
+    header: "Apply By",
+    cell: ({ row }) => {
+      const dateValue = row.getValue("applyBy") as string;
+      const formattedDate = new Date(dateValue).toLocaleDateString('en-GB',{
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+      });
+      return <div>{formattedDate}</div>;
+    },
+  },
+  {
     accessorKey: "companyName",
     header: ({ column }) => (
       <Button
@@ -106,7 +119,7 @@ export const columns: ColumnDef<JobListing>[] = [
   },
   {
     accessorKey: "salary",
-    header: () => <div className="text-right">Salary</div>,
+    header: () => (<div className="text-right">Salary</div>),
     cell: ({ row }) => {
       return <div className="text-right font-medium">{row.getValue("salary")}</div>;
     },
@@ -202,22 +215,22 @@ export function JobsListingRecruiter({ recruiterId }: { recruiterId: string }) {
           onChange={(event) =>
             table.getColumn("companyName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm dark:border-slate-200 border-gray-800"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto dark:text-white dark:border-slate-200 border-gray-800 dark:hover:bg-gray-900">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="dark:bg-gray-900">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => (
                 <DropdownMenuCheckboxItem
                   key={column.id}
-                  className="capitalize"
+                  className="capitalize dark:hover:bg-gray-950"
                   checked={column.getIsVisible()}
                   onCheckedChange={(value) =>
                     column.toggleVisibility(!!value)
@@ -230,10 +243,10 @@ export function JobsListingRecruiter({ recruiterId }: { recruiterId: string }) {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="border-gray-800">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="dark:hover:bg-gray-900">
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -247,12 +260,13 @@ export function JobsListingRecruiter({ recruiterId }: { recruiterId: string }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="dark:text-white">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="dark:hover:bg-gray-900 dark:data-[state='selected']:bg-gray-950"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -282,12 +296,13 @@ export function JobsListingRecruiter({ recruiterId }: { recruiterId: string }) {
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="flex-1 text-center">
+        <div className="flex-1 space-x-2 text-center dark:text-white">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="dark:border-slate-200 border-gray-800"
           >
             Previous
           </Button>
@@ -296,6 +311,7 @@ export function JobsListingRecruiter({ recruiterId }: { recruiterId: string }) {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="dark:border-slate-200 border-gray-800"
           >
             Next
           </Button>
